@@ -18,3 +18,19 @@ The environment will be ready after `pipenv install` command.
 
 To use pre-commit you need to run 2 commands: `pip install pre-commit` and `pre-commit install`.\
 It may be needed to authorize with the passphrase for the SSH key to Github.
+
+## Modelling
+
+### Services list
+
+0. Orchestrator - optional;
+1. CRM;
+2. AI;
+3. Doors;
+4. E-receipt;
+5. Messages;
+6. Payments;
+7. PIM;
+8. Receipt;
+9. Screen;
+10. Terminal.
