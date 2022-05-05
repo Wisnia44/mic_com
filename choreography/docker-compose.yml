@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  crm:
+    container_name: crm
+    build:
+      context: .
+      dockerfile: crm/Dockerfile
+    ports:
+      - "8001:8001"
