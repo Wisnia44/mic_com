@@ -8,3 +8,10 @@ services:
       dockerfile: crm/Dockerfile
     ports:
       - "8001:8001"
+  doors:
+    container_name: doors
+    build:
+      context: .
+      dockerfile: doors/Dockerfile
+    ports:
+      - "8002:8002"
