@@ -36,6 +36,13 @@ services:
       dockerfile: messages/Dockerfile
     ports:
       - "8005:8005"
+  payments:
+    container_name: payments
+    build:
+      context: .
+      dockerfile: payments/Dockerfile
+    ports:
+      - "8006:8006"
   screen:
     container_name: screen
     build:
