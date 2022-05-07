@@ -9,4 +9,4 @@ RUN pipenv install
 
 COPY ./screen .
 
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8007"]
+CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8009"]

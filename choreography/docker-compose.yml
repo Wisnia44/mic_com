@@ -1,24 +1,31 @@
 version: '3'
 
 services:
+  ai:
+    container_name: ai
+    build:
+      context: .
+      dockerfile: ai/Dockerfile
+    ports:
+      - "8001:8001"
   crm:
     container_name: crm
     build:
       context: .
       dockerfile: crm/Dockerfile
     ports:
-      - "8001:8001"
+      - "8002:8002"
   doors:
     container_name: doors
     build:
       context: .
       dockerfile: doors/Dockerfile
     ports:
-      - "8002:8002"
+      - "8003:8003"
   screen:
     container_name: screen
     build:
       context: .
       dockerfile: screen/Dockerfile
     ports:
-      - "8007:8007"
+      - "8009:8009"

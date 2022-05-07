@@ -24,8 +24,8 @@ It may be needed to authorize with the passphrase for the SSH key to Github.
 ### Services list
 
 0. Orchestrator - optional;
-1. CRM;
-2. AI;
+1. AI;
+2. CRM;
 3. Doors;
 4. E-receipt;
 5. Messages;

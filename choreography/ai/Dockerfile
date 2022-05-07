@@ -7,6 +7,6 @@ COPY ../Pipfile .
 COPY ../Pipfile.lock .
 RUN pipenv install
 
-COPY ./crm .
+COPY ./ai .
 
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002"]
+CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
