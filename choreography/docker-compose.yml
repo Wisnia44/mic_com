@@ -64,3 +64,10 @@ services:
       dockerfile: screen/Dockerfile
     ports:
       - "8009:8009"
+  terminal:
+    container_name: terminal
+    build:
+      context: .
+      dockerfile: terminal/Dockerfile
+    ports:
+      - "8010:8010"
