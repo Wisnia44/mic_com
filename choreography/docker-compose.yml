@@ -43,6 +43,13 @@ services:
       dockerfile: payments/Dockerfile
     ports:
       - "8006:8006"
+  pim:
+    container_name: pim
+    build:
+      context: .
+      dockerfile: pim/Dockerfile
+    ports:
+      - "8007:8007"
   screen:
     container_name: screen
     build:
