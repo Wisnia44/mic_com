@@ -29,6 +29,13 @@ services:
       dockerfile: ereceipt/Dockerfile
     ports:
       - "8004:8004"
+  messages:
+    container_name: messages
+    build:
+      context: .
+      dockerfile: messages/Dockerfile
+    ports:
+      - "8005:8005"
   screen:
     container_name: screen
     build:
