@@ -50,6 +50,13 @@ services:
       dockerfile: pim/Dockerfile
     ports:
       - "8007:8007"
+  receipt:
+    container_name: receipt
+    build:
+      context: .
+      dockerfile: receipt/Dockerfile
+    ports:
+      - "8008:8008"
   screen:
     container_name: screen
     build:
