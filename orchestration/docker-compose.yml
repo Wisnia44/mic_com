@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  orchestrator:
+    container_name: orchestrator
+    build:
+      context: .
+      dockerfile: orchestrator/Dockerfile
+    ports:
+      - "8000:8000"
+  ai:
+    container_name: ai
+    build:
+      context: .
+      dockerfile: ai/Dockerfile
+    ports:
+      - "8001:8001"
+  crm:
+    container_name: crm
+    build:
+      context: .
+      dockerfile: crm/Dockerfile
+    ports:
+      - "8002:8002"
+  doors:
+    container_name: doors
+    build:
+      context: .
+      dockerfile: doors/Dockerfile
+    ports:
+      - "8003:8003"
+  ereceipt:
+    container_name: ereceipt
+    build:
+      context: .
+      dockerfile: ereceipt/Dockerfile
+    ports:
+      - "8004:8004"
+  messages:
+    container_name: messages
+    build:
+      context: .
+      dockerfile: messages/Dockerfile
+    ports:
+      - "8005:8005"
+  payments:
+    container_name: payments
+    build:
+      context: .
+      dockerfile: payments/Dockerfile
+    ports:
+      - "8006:8006"
+  pim:
+    container_name: pim
+    build:
+      context: .
+      dockerfile: pim/Dockerfile
+    ports:
+      - "8007:8007"
+  receipt:
+    container_name: receipt
+    build:
+      context: .
+      dockerfile: receipt/Dockerfile
+    ports:
+      - "8008:8008"
+  screen:
+    container_name: screen
+    build:
+      context: .
+      dockerfile: screen/Dockerfile
+    ports:
+      - "8009:8009"
+  terminal:
+    container_name: terminal
+    build:
+      context: .
+      dockerfile: terminal/Dockerfile
+    ports:
+      - "8010:8010"
