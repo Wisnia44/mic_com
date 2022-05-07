@@ -5,9 +5,15 @@ name = "pypi"
 
 [packages]
 fastapi = "0.75.2"
-uvicorn = "*"
+httpx = "0.22.0"
+redis = "4.2.2"
+uvicorn = "0.17.6"
 
 [dev-packages]
+black = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.10"
