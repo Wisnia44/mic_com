@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  ai:
+    container_name: ai_choreography
+    build:
+      context: .
+      dockerfile: ai/Dockerfile
+    ports:
+      - "8001:8001"
+  crm:
+    container_name: crm_choreography
+    build:
+      context: .
+      dockerfile: crm/Dockerfile
+    ports:
+      - "8002:8002"
+  doors:
+    container_name: doors_choreography
+    build:
+      context: .
+      dockerfile: doors/Dockerfile
+    ports:
+      - "8003:8003"
+  ereceipt:
+    container_name: ereceipt_choreography
+    build:
+      context: .
+      dockerfile: ereceipt/Dockerfile
+    ports:
+      - "8004:8004"
+  messages:
+    container_name: messages_choreography
+    build:
+      context: .
+      dockerfile: messages/Dockerfile
+    ports:
+      - "8005:8005"
+  payments:
+    container_name: payments_choreography
+    build:
+      context: .
+      dockerfile: payments/Dockerfile
+    ports:
+      - "8006:8006"
+  pim:
+    container_name: pim_choreography
+    build:
+      context: .
+      dockerfile: pim/Dockerfile
+    ports:
+      - "8007:8007"
+  receipt:
+    container_name: receipt_choreography
+    build:
+      context: .
+      dockerfile: receipt/Dockerfile
+    ports:
+      - "8008:8008"
+  screen:
+    container_name: screen_choreography
+    build:
+      context: .
+      dockerfile: screen/Dockerfile
+    ports:
+      - "8009:8009"
+  terminal:
+    container_name: terminal_choreography
+    build:
+      context: .
+      dockerfile: terminal/Dockerfile
+    ports:
+      - "8010:8010"
