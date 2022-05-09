@@ -9,10 +9,10 @@ from shared.models import Product, User
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
-ERECEIPT_GENERATING_QUEUE: Dict[str, Union[List[Product], User]] = {}
 
-
-async def process_generating_ereceipt_queue(time_to_sleep: int) -> None:
+async def process_generating_ereceipt_queue(
+    time_to_sleep: int, ERECEIPT_GENERATING_QUEUE: Dict[str, Union[List[Product], User]]
+) -> None:
     while True:
         if (
             ERECEIPT_GENERATING_QUEUE["products"]
@@ -29,7 +29,7 @@ async def process_generating_ereceipt_queue(time_to_sleep: int) -> None:
                     "http://messages_choreography:8005/send_ereceipt",
                     json=ERECEIPT_GENERATING_QUEUE["customer"].reprJSON(),  # type: ignore [union-attr]
                 )
-            ERECEIPT_GENERATING_QUEUE: Dict[str, Union[List[Product], User]] = {}
+            ERECEIPT_GENERATING_QUEUE = {}
         elif ERECEIPT_GENERATING_QUEUE["products"]:
             logger.warning("Waiting for info about customer to print the receipt...")
         elif ERECEIPT_GENERATING_QUEUE["customer"]:

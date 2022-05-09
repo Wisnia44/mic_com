@@ -1,15 +1,18 @@
 import logging
 import os
+from typing import Dict, List, Union
 
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from queue_processor import ERECEIPT_GENERATING_QUEUE, process_generating_ereceipt_queue
+from queue_processor import process_generating_ereceipt_queue
 from shared.models import Product, User
 
 app = FastAPI()
 
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
+
+ERECEIPT_GENERATING_QUEUE: Dict[str, Union[List[Product], User]] = {}
 process_generating_ereceipt_queue(10)
 
 
