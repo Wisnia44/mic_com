@@ -15,7 +15,7 @@ async def health():
     return {}
 
 
-@app.post("/open")
+@app.get("/open")
 async def open_doors():
     logger.warning("Doors requested to open")
     logger.warning("Opening doors...")
