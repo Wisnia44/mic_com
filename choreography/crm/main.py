@@ -51,13 +51,11 @@ async def card_scanned(card: Card):
     return JSONResponse(status_code=status.HTTP_200_OK, content=card.reprJSON())
 
 
-@app.post("/registration_form")
+@app.post("/registration_data")
 async def validate_registration_data(user: User):
     logger.warning("Obtained user registration data")
     logger.warning("Validating data...")
     logger.warning("Data validated successfully")
-    logger.warning("Saving user in the database")
-    user = redis_crm.set(name=user.card_token, value=json.dumps(user.reprJSON()))
     logger.warning("User data: %s", user.reprJSON())
     logger.warning("Requesting screen to show info about scanning card again")
     async with httpx.AsyncClient() as client:
@@ -74,8 +72,8 @@ async def validate_registration_data(user: User):
 async def save_user(user: User):
     logger.warning("Obtained verified card with user data after second scan")
     logger.warning("Saving user in the database")
-    user = redis_crm.set(name=user.card_token, value=json.dumps(user.reprJSON()))
-    logger.warning("User data: %s", user.reprJSON())
+    redis_crm.set(name=user.card_token, value=json.dumps(user.reprJSON()))
+    logger.warning("User saved. User data: %s", user.reprJSON())
     await open_doors_and_finish_entering_process()
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
 
@@ -83,7 +81,7 @@ async def save_user(user: User):
 async def open_doors_and_finish_entering_process():
     logger.warning("Requesting screen to show entering doors info")
     async with httpx.AsyncClient() as client:
-        await client.post("http://screen_choreography:8009/open_doors")
+        await client.get("http://screen_choreography:8009/open_doors")
     logger.warning("Requesting doors to open")
     async with httpx.AsyncClient() as client:
         await client.get("http://doors_choreography:8003/open")

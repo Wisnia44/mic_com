@@ -36,7 +36,7 @@ async def scan_again(user: User):
     logger.warning("Waiting for the user to scan the card...")
     logger.warning("Second scan detected")
     card = Card(card_token="123abc123")
-    logger.warning("Sending request to CRM for card_scanned")
+    logger.warning("Sending request to CRM to save the user")
     async with httpx.AsyncClient() as client:
         await client.post(
             "http://payments_choreography:8006/verify_card",
