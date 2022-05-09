@@ -7,7 +7,7 @@ import redis
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from shared.models import Card, User
-from shared.utils import populate_users_data
+from shared.utils import populate_users_data, user1
 
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
@@ -32,7 +32,7 @@ async def card_scanned(card: Card):
         logger.warning("User not known, initializing registration process")
         logger.warning("Requesting registration form to be shown by the screen")
         async with httpx.AsyncClient() as client:
-            await client.post(
+            client.post(
                 "http://screen_choreography:8009/registration_form",
                 json={"card_token": card.card_token},
             )
@@ -43,6 +43,7 @@ async def card_scanned(card: Card):
                 card_token=user_dict["card_token"],
                 name=user_dict["name"],
                 surname=user_dict["surname"],
+                address=user_dict["address"],
             )
         except KeyError:
             raise Exception("User found but entity unprocessable")
@@ -59,10 +60,10 @@ async def validate_registration_data(user: User):
     logger.warning("User data: %s", user.reprJSON())
     logger.warning("Requesting screen to show info about scanning card again")
     async with httpx.AsyncClient() as client:
-        await client.get("http://screen_choreography:8009/scan_again")
+        client.get("http://screen_choreography:8009/scan_again")
     logger.warning("Requesting terminal for second scan")
     async with httpx.AsyncClient() as client:
-        await client.post(
+        client.post(
             "http://terminal_choreography:8010/scan_again", json=user.reprJSON()
         )
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
@@ -78,11 +79,35 @@ async def save_user(user: User):
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
 
 
+@app.get("/customer_info")
+async def get_customer_info_on_checkout():
+    logger.warning("Obtained request to get customer info on checkout")
+    logger.warning("Getting user from the database")
+    user = user1
+    logger.warning("User data: %s", user.reprJSON())
+    logger.warning("Requesting receipt service to print receipt")
+    async with httpx.AsyncClient() as client:
+        client.post(
+            "http://receipt_choreography:8008/customer_info", json=user.reprJSON()
+        )
+    logger.warning("Requesting e-receipt service to generate e-receipt")
+    async with httpx.AsyncClient() as client:
+        client.post(
+            "http://ereceipt_choreography:8004/customer_info", json=user.reprJSON()
+        )
+    logger.warning(
+        "Requesting payment service to realize payment", json=user.reprJSON()
+    )
+    async with httpx.AsyncClient() as client:
+        client.post("http://payments_choreography:8006/customer_info")
+    return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
+
+
 async def open_doors_and_finish_entering_process():
     logger.warning("Requesting screen to show entering doors info")
     async with httpx.AsyncClient() as client:
-        await client.get("http://screen_choreography:8009/open_doors")
+        client.get("http://screen_choreography:8009/open_doors")
     logger.warning("Requesting doors to open")
     async with httpx.AsyncClient() as client:
-        await client.get("http://doors_choreography:8003/open")
+        client.get("http://doors_choreography:8003/open")
     return None
