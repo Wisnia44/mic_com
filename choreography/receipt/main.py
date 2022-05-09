@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
 PRINTING_QUEUE: Dict[str, Union[List[Product], User]] = {}
-process_receipt_printing_queue(10)
+process_receipt_printing_queue(10, PRINTING_QUEUE)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK)
