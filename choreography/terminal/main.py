@@ -22,7 +22,7 @@ async def card_scanned(card: Card):
     logger.warning("Initializing entering process")
     logger.warning("Sending request to CRM for card_scanned")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://crm_choreography:8002/card_scanned",
             json=card.reprJSON(),
         )
@@ -38,7 +38,7 @@ async def scan_again(user: User):
     card = Card(card_token="123abc123")
     logger.warning("Sending request to CRM to save the user")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://payments_choreography:8006/verify_card",
             json=dict(user=user.reprJSON(), card=card.reprJSON()),
         )
