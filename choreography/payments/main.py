@@ -1,16 +1,19 @@
 import logging
 import os
+from typing import Dict, List, Union
 
 import httpx
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from queue_processor import PAYMENT_QUEUE, process_realize_payment_queue
+from queue_processor import process_realize_payment_queue
 from shared.models import Card, Product, User
 
 app = FastAPI()
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
-process_realize_payment_queue(10)
+
+PAYMENT_QUEUE: Dict[str, Union[List[Product], User]] = {}
+process_realize_payment_queue(10, PAYMENT_QUEUE)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK)
