@@ -3,7 +3,7 @@ import os
 
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from receipt.queue_processor import PRINTING_QUEUE, process_receipt_printing_queue
+from queue_processor import PRINTING_QUEUE, process_receipt_printing_queue
 from shared.models import Product, User
 
 app = FastAPI()

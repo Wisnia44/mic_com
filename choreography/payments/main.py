@@ -4,7 +4,7 @@ import os
 import httpx
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from payments.queue_processor import PAYMENT_QUEUE, process_realize_payment_queue
+from queue_processor import PAYMENT_QUEUE, process_realize_payment_queue
 from shared.models import Card, Product, User
 
 app = FastAPI()

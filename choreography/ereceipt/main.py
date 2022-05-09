@@ -1,12 +1,9 @@
 import logging
 import os
 
-from ereceipt.queue_processor import (
-    ERECEIPT_GENERATING_QUEUE,
-    process_generating_ereceipt_queue,
-)
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
+from queue_processor import ERECEIPT_GENERATING_QUEUE, process_generating_ereceipt_queue
 from shared.models import Product, User
 
 app = FastAPI()
