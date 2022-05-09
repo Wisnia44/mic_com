@@ -29,8 +29,8 @@ async def customer_exited():
     logger.warning("Customer exited")
     logger.warning("Calling CRM to get info about customer")
     async with httpx.AsyncClient() as client:
-        client.get("http://crm_choreography:8002/customer_info")
+        await client.get("http://crm_choreography:8002/customer_info")
     logger.warning("Calling AI to get info about purchased products")
     async with httpx.AsyncClient() as client:
-        client.get("http://ai_choreography:8001/get_purchased_products")
+        await client.get("http://ai_choreography:8001/get_purchased_products")
     return JSONResponse(status_code=status.HTTP_200_OK)

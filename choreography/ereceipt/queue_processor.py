@@ -26,7 +26,7 @@ async def process_generating_ereceipt_queue(
                     "Requesting message service to send e-receipt to the customer"
                 )
                 async with httpx.AsyncClient() as client:
-                    client.post(
+                    await client.post(
                         "http://messages_choreography:8005/send_ereceipt",
                         json=ERECEIPT_GENERATING_QUEUE["customer"].reprJSON(),  # type: ignore [union-attr]
                     )

@@ -28,7 +28,7 @@ async def verify_card(card: Card, user: User):
     logger.warning("Card verification successfull")
     logger.warning("Sending request to CRM with successfully verified card")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://crm_choreography:8002/card_verified",
             json=user.reprJSON(),
         )

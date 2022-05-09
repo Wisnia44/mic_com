@@ -34,19 +34,19 @@ async def calculate_prices(products_json: list[Product]):
     logger.warning("Products with calculated prices: %s", products_with_prices_json)
     logger.warning("Requesting receipt service to print receipt")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://receipt_choreography:8008/products_info",
             json=products_with_prices_json,
         )
     logger.warning("Requesting e-receipt service to generate e-receipt")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://ereceipt_choreography:8004/products_info",
             json=products_with_prices_json,
         )
     logger.warning("Requesting payment service to realize payment")
     async with httpx.AsyncClient() as client:
-        client.post(
+        await client.post(
             "http://payments_choreography:8006/products_info",
             json=products_with_prices_json,
         )
