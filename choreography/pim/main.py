@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import List
 
 import httpx
 from fastapi import FastAPI, status
@@ -16,18 +17,10 @@ async def health():
     return {}
 
 
-@app.get("/get_prices")
-async def calculate_prices(products_json: list[Product]):
+@app.post("/get_prices")
+async def calculate_prices(products: List[Product]):
     logger.warning("Obtained request to get products prices")
     logger.warning("Calculating...")
-    products = [
-        Product(
-            name=product["name"],
-            price=product["price"],
-            quantity=product["quantity"],
-        )
-        for product in products_json
-    ]
     products[0].price = 299
     products[1].price = 799
     products_with_prices_json = [product.reprJSON() for product in products]

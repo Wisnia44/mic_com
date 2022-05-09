@@ -26,4 +26,4 @@ def populate_users_data(redis_instance: redis.Redis):
 
 
 def get_products_json():
-    return json.dumps([product1.reprJSON(), product2.reprJSON()])
+    return [product1.reprJSON(), product2.reprJSON()]

@@ -26,7 +26,7 @@ async def open_doors():
 
 @app.get("/customer_exit")
 async def customer_exited():
-    logger.warning("Customer exited")
+    logger.warning("Customer went out of the store")
     logger.warning("Calling CRM to get info about customer")
     async with httpx.AsyncClient() as client:
         await client.get("http://crm_choreography:8002/customer_info")

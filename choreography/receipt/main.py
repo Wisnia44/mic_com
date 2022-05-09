@@ -38,6 +38,6 @@ async def get_products_info(products_json: list[Product]):
 
 @app.post("/customer_info")
 async def get_customer_info(customer: User):
-    logger.warning("Obtained request with info about the customer")
-    PRINTING_QUEUE["customer"] = customer
+    # logger.warning("Obtained request with info about the customer")
+    # PRINTING_QUEUE["customer"] = customer
     return JSONResponse(status_code=status.HTTP_200_OK, content=customer.reprJSON())

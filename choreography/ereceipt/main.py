@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
 ERECEIPT_GENERATING_QUEUE: Dict[str, Union[List[Product], User]] = {}
-process_generating_ereceipt_queue(10)
+process_generating_ereceipt_queue(10, ERECEIPT_GENERATING_QUEUE)
 
 
 @app.get("/health", status_code=status.HTTP_200_OK)
