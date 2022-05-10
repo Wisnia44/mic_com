@@ -7,7 +7,7 @@ import redis
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from shared.models import Card, User
-from shared.utils import populate_users_data
+from shared.utils import populate_users_data, user1
 
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
@@ -43,6 +43,7 @@ async def card_scanned(card: Card):
                 card_token=user_dict["card_token"],
                 name=user_dict["name"],
                 surname=user_dict["surname"],
+                address=user_dict["address"],
             )
         except KeyError:
             raise Exception("User found but entity unprocessable")
@@ -75,6 +76,30 @@ async def save_user(user: User):
     redis_crm.set(name=user.card_token, value=json.dumps(user.reprJSON()))
     logger.warning("User saved. User data: %s", user.reprJSON())
     await open_doors_and_finish_entering_process()
+    return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
+
+
+@app.get("/customer_info")
+async def get_customer_info_on_checkout():
+    logger.warning("Obtained request to get customer info on checkout")
+    logger.warning("Getting user from the database")
+    user = user1
+    logger.warning("User data: %s", user.reprJSON())
+    logger.warning("Requesting receipt service to print receipt")
+    async with httpx.AsyncClient() as client:
+        await client.post(
+            "http://receipt_choreography:8008/customer_info", json=user.reprJSON()
+        )
+    logger.warning("Requesting e-receipt service to generate e-receipt")
+    async with httpx.AsyncClient() as client:
+        await client.post(
+            "http://ereceipt_choreography:8004/customer_info", json=user.reprJSON()
+        )
+    logger.warning("Requesting payment service to realize payment")
+    async with httpx.AsyncClient() as client:
+        await client.post(
+            "http://payments_choreography:8006/customer_info", json=user.reprJSON()
+        )
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
 
 

@@ -8,5 +8,6 @@ COPY ../Pipfile.lock .
 RUN pipenv install
 
 COPY ./ereceipt .
+COPY ./shared ./shared/
 
 CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8004"]

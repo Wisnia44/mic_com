@@ -39,7 +39,12 @@ async def show_registration_form(card: Card):
     logger.warning("Requested form shown")
     logger.warning("Gathering data from the user...")
     logger.warning("Sending gathered data to CRM")
-    data = User(card_token=card.card_token, name="Harry", surname="Kane")
+    data = User(
+        card_token=card.card_token,
+        name="Harry",
+        surname="Kane",
+        address="harry.kane@email.com",
+    )
     async with httpx.AsyncClient() as client:
         await client.post(
             "http://crm_choreography:8002/registration_data", json=data.reprJSON()
