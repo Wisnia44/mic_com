@@ -95,11 +95,11 @@ async def get_customer_info_on_checkout():
         await client.post(
             "http://ereceipt_choreography:8004/customer_info", json=user.reprJSON()
         )
-    logger.warning(
-        "Requesting payment service to realize payment", json=user.reprJSON()
-    )
+    logger.warning("Requesting payment service to realize payment")
     async with httpx.AsyncClient() as client:
-        await client.post("http://payments_choreography:8006/customer_info")
+        await client.post(
+            "http://payments_choreography:8006/customer_info", json=user.reprJSON()
+        )
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
 
 

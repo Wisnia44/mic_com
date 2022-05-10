@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List
+from typing import List, Union
 
 import httpx
 from fastapi import FastAPI, status
@@ -11,8 +11,7 @@ app = FastAPI()
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
-customer_info: User = None
-products_info: List[Product] = []
+info: dict[str, Union[User, List[Product]]] = {"user": None, "products": []}
 
 
 @app.get("/health", status_code=status.HTTP_200_OK)
@@ -37,28 +36,28 @@ async def verify_card(card: Card, user: User):
 @app.post("/products_info")
 async def get_products_info(products: list[Product]):
     logger.warning("Obtained request with info about products containing prices")
-    products_info = products
-    if customer_info:
+    info["products"] = products
+    if info["user"]:
         await realize_payment()
-    return JSONResponse(status_code=status.HTTP_200_OK, content=products)
+    return JSONResponse(status_code=status.HTTP_200_OK)
 
 
 @app.post("/customer_info")
 async def get_customer_info(customer: User):
     logger.warning("Obtained request with info about the customer")
-    customer_info = customer
-    if products_info:
+    info["user"] = customer
+    if info["products"]:
         await realize_payment()
     return JSONResponse(status_code=status.HTTP_200_OK, content=customer.reprJSON())
 
 
 async def realize_payment() -> None:
     logger.warning(
-        "Obtained info about products, first product=", products_info[0].reprJSON()
+        "Obtained info about products, first product=%s", info["products"][0].reprJSON()
     )
-    logger.warning("Obtained info about customer: %s", customer_info.reprJSON())
-    logger.warning("Printing receipt...")
-    logger.warning("Receipt printed")
-    customer_info = None
-    products_info: List[Product] = []
+    logger.warning("Obtained info about customer: %s", info["user"].reprJSON())  # type: ignore [union-attr]
+    logger.warning("Realizing payment...")
+    logger.warning("Payment realized")
+    info["user"] = None
+    info["products"] = []
     return None
