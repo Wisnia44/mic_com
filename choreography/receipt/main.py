@@ -25,6 +25,8 @@ async def get_products_info(products: list[Product]):
     info["products"] = products
     if info["user"]:
         await print_receipt()
+    else:
+        logger.warning("Waiting for products info to print receipt")
     return JSONResponse(status_code=status.HTTP_200_OK)
 
 
@@ -34,6 +36,8 @@ async def get_customer_info(customer: User):
     info["user"] = customer
     if info["products"]:
         await print_receipt()
+    else:
+        logger.warning("Waiting for products info to print receipt")
     return JSONResponse(status_code=status.HTTP_200_OK, content=customer.reprJSON())
 
 
