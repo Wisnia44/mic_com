@@ -5,7 +5,7 @@ from typing import List
 import httpx
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from shared.models import Product, User
+from shared.models import Ereceipt, Product, User
 
 router = APIRouter()
 logger = logging.getLogger()
@@ -20,8 +20,8 @@ async def checkout():
     customer = await _get_customer_data()
     products = await _get_products_data()
     products_with_prices = await _get_prices_for_products(products)
-    await _print_receipt(products_with_prices)
-    ereceipt = await _generate_ereceipt(products_with_prices)
+    await _print_receipt(products_with_prices, customer)
+    ereceipt = await _generate_ereceipt(products_with_prices, customer)
     await _send_ereceipt(ereceipt, customer)
     await _realize_payment()
     return JSONResponse(status_code=status.HTTP_200_OK, content={})
@@ -30,7 +30,7 @@ async def checkout():
 async def _get_customer_data() -> User:
     logger.warning("Calling CRM to get info about customer")
     async with httpx.AsyncClient() as client:
-        response = await client.get("http://crm_choreography:8002/customer_info")
+        response = await client.get("http://crm_orchestration:8002/customer_info")
     logger.warning("Response from CRM: %s", response.text)
     user_data = response.json()
     return User(
@@ -45,7 +45,7 @@ async def _get_products_data() -> List[Product]:
     logger.warning("Calling AI to get info about purchased products")
     async with httpx.AsyncClient() as client:
         response = await client.get(
-            "http://ai_choreography:8001/get_purchased_products"
+            "http://ai_orchestration:8001/get_purchased_products"
         )
     logger.warning("Response from AI: %s", response.text)
     products = []
@@ -65,7 +65,7 @@ async def _get_prices_for_products(products: List[Product]) -> List[Product]:
     logger.warning("Request PIM to get products prices")
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            "http://pim_choreography:8007/get_prices", json=products_json
+            "http://pim_orchestration:8007/get_prices", json=products_json
         )
     logger.warning("Response from PIM: %s", response.text)
     products = []
@@ -92,7 +92,7 @@ async def _print_receipt(products: List[Product], customer: User) -> None:
     return None
 
 
-async def _generate_ereceipt(products: List[Product], customer: User) -> bytes:
+async def _generate_ereceipt(products: List[Product], customer: User) -> Ereceipt:
     products_json = [product.reprJSON() for product in products]
     logger.warning("Requesting e-receipt service to generate e-receipt")
     async with httpx.AsyncClient() as client:
@@ -101,15 +101,15 @@ async def _generate_ereceipt(products: List[Product], customer: User) -> bytes:
             json=dict(products=products_json, customer=customer.reprJSON()),
         )
     logger.warning("Response from e-receipt: %s", response.text)
-    return response.json()["ereceipt"]
+    return Ereceipt(ereceipt=response.json()["ereceipt"])
 
 
-async def _send_ereceipt(ereceipt: bytes, customer: User) -> None:
+async def _send_ereceipt(ereceipt: Ereceipt, customer: User) -> None:
     logger.warning("Requesting message service to send e-receipt to the customer")
     async with httpx.AsyncClient() as client:
         response = await client.post(
             "http://messages_orchestration:8005/send_ereceipt",
-            json=dict(ereceipt=ereceipt, customer=customer.reprJSON()),
+            json=dict(customer=customer.reprJSON(), ereceipt=ereceipt.reprJSON()),
         )
     logger.warning("Response from messages: %s", response.text)
     return None

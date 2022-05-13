@@ -23,8 +23,6 @@ async def generate_ereceipt(products: List[Product], customer: User):
     logger.warning("Obtained info about products: %s", products_json)
     logger.warning("Obtained info about customer: %s", customer.reprJSON())
     logger.warning("Generating e-receipt...")
-    ereceipt = f"Products: {products_json}, customer: {customer.reprJSON()}".encode(
-        "utf-8"
-    )
+    ereceipt = f"E_RECEIPT. Customer: {customer.reprJSON()} purchased following products: {products_json}"
     logger.warning("E-receipt generated")
     return JSONResponse(status_code=status.HTTP_200_OK, content={"ereceipt": ereceipt})

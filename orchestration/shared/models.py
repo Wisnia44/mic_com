@@ -30,3 +30,10 @@ class Product(BaseModel):
 
     def reprJSON(self):
         return dict(name=self.name, price=self.price, quantity=self.quantity)
+
+
+class Ereceipt(BaseModel):
+    ereceipt: str
+
+    def reprJSON(self):
+        return dict(ereceipt=self.ereceipt)

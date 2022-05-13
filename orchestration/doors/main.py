@@ -30,4 +30,4 @@ async def customer_exited():
     logger.warning("Notifying orchestrator")
     async with httpx.AsyncClient() as client:
         await client.get("http://orchestrator_orchestration:8000/checkout")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
