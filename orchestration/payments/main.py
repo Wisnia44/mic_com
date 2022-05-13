@@ -19,8 +19,8 @@ async def health():
 
 
 @app.post("/verify_card")
-async def verify_card(card: Card, user: User):
+async def verify_card(card: Card):
     logger.warning("Card verification request got")
     logger.warning("Verifying card...")
     logger.warning("Card verification successfull")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

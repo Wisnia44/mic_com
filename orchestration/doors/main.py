@@ -20,4 +20,4 @@ async def open_doors():
     logger.warning("Doors requested to open")
     logger.warning("Opening doors...")
     logger.warning("Doors opened")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

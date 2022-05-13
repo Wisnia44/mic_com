@@ -22,10 +22,6 @@ class User(BaseModel):
             address=self.address,
         )
 
-    def dict_init(self, input_dict: dict):
-        for key, value in input_dict.items():
-            setattr(self, key, value)
-
 
 class Product(BaseModel):
     name: str
@@ -34,7 +30,3 @@ class Product(BaseModel):
 
     def reprJSON(self):
         return dict(name=self.name, price=self.price, quantity=self.quantity)
-
-    def dict_init(self, input_dict: dict):
-        for key, value in input_dict.items():
-            setattr(self, key, value)
