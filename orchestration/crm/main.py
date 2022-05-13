@@ -5,7 +5,7 @@ import os
 import redis
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from shared.models import User
+from shared.models import Card, User
 from shared.utils import populate_users_data
 
 logger = logging.getLogger()
@@ -20,6 +20,29 @@ populate_users_data(redis_crm)
 @app.get("/health", status_code=status.HTTP_200_OK)
 async def health():
     return {}
+
+
+@app.post("/get_user")
+async def get_user(card: Card):
+    logger.warning("Obtained get_user request for a card: %s", card.reprJSON())
+    logger.warning("Getting user from the database...")
+    user_db = redis_crm.get(card.card_token)
+    if not user_db:
+        logger.warning("User not known, returning None...")
+        return JSONResponse(status_code=status.HTTP_200_OK, content={})
+    else:
+        user_dict = json.loads(user_db)
+        try:
+            user = User(
+                card_token=user_dict["card_token"],
+                name=user_dict["name"],
+                surname=user_dict["surname"],
+                address=user_dict["address"],
+            )
+        except KeyError:
+            raise Exception("User found but entity unprocessable")
+        logger.warning("User found. User data: %s", user.reprJSON())
+        return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
 
 
 @app.post("/validate_data")

@@ -2,17 +2,14 @@ import logging
 import os
 
 import httpx
-from fastapi import APIRouter, status
-from fastapi.responses import JSONResponse
+from fastapi import status
 from shared.models import Card, User
 
-router = APIRouter()
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
 
-@router.post("/registration")
-async def registration(card: Card):
+async def registration(card: Card) -> bool:
     logger.warning("User not known, initializing registration process")
 
     registration_data = await _registration_form(card)
@@ -22,17 +19,13 @@ async def registration(card: Card):
         card_verification = await _verify_card(second_card_data)
         if card_verification:
             await _save_user(registration_data)
-            await _open_door()
         else:
             logger.error("Card verification failed, exiting...")
-            return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return False
     else:
         logger.error("Data validation failed, exiting...")
-        return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    return JSONResponse(
-        status_code=status.HTTP_200_OK, content=registration_data.reprJSON()
-    )
+        return False
+    return True
 
 
 async def _registration_form(card: Card) -> User:
@@ -104,20 +97,4 @@ async def _save_user(user: User) -> None:
             json=user.reprJSON(),
         )
     logger.warning("Obtained response from CRM: %s", response.text)
-    return None
-
-
-async def _open_door() -> None:
-    logger.warning("Requesting screen to show info about opening door")
-    async with httpx.AsyncClient() as client:
-        response_screen = await client.get(
-            "http://screen_orchestration:8009/open_doors"
-        )
-    logger.warning("Obtained response from screen: %s", response_screen.text)
-
-    logger.warning("Requesting doors to open")
-    async with httpx.AsyncClient() as client:
-        response_door = await client.get("http://doors_orchestration:8003/open")
-    logger.warning("Obtained response from door: %s", response_door.text)
-
     return None

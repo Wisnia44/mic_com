@@ -4,12 +4,10 @@ import os
 from checkout import router as checkout_router
 from entering import router as entering_router
 from fastapi import FastAPI, status
-from registration import router as registration_router
 
 app = FastAPI()
 app.include_router(checkout_router)
 app.include_router(entering_router)
-app.include_router(registration_router)
 
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
