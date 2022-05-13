@@ -24,3 +24,10 @@ async def verify_card(card: Card):
     logger.warning("Verifying card...")
     logger.warning("Card verification successfull")
     return JSONResponse(status_code=status.HTTP_200_OK, content={})
+
+
+@app.post("/realize_payment")
+async def realize_payment():
+    logger.warning("Realizing payment...")
+    logger.warning("Payment realized")
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

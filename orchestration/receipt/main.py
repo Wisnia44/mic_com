@@ -19,35 +19,11 @@ async def health():
     return {}
 
 
-@app.post("/products_info")
-async def get_products_info(products: list[Product]):
-    logger.warning("Obtained request with info about products containing prices")
-    info["products"] = products
-    if info["user"]:
-        await print_receipt()
-    else:
-        logger.warning("Waiting for products info to print receipt")
-    return JSONResponse(status_code=status.HTTP_200_OK)
-
-
-@app.post("/customer_info")
-async def get_customer_info(customer: User):
-    logger.warning("Obtained request with info about the customer")
-    info["user"] = customer
-    if info["products"]:
-        await print_receipt()
-    else:
-        logger.warning("Waiting for products info to print receipt")
-    return JSONResponse(status_code=status.HTTP_200_OK, content=customer.reprJSON())
-
-
-async def print_receipt() -> None:
-    logger.warning(
-        "Obtained info about products, first product=%s", info["products"][0].reprJSON()
-    )
-    logger.warning("Obtained info about customer: %s", info["user"].reprJSON())  # type: ignore [union-attr]
+@app.post("/print_receipt")
+async def print_receipt(products: List[Product], customer: User) -> None:
+    products_json = [product.reprJSON() for product in products]
+    logger.warning("Obtained info about products: %s", products_json)
+    logger.warning("Obtained info about customer: %s", customer.reprJSON())
     logger.warning("Printing receipt...")
     logger.warning("Receipt printed")
-    info["user"] = None
-    info["products"] = []
-    return None
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

@@ -6,7 +6,7 @@ import redis
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
 from shared.models import Card, User
-from shared.utils import populate_users_data
+from shared.utils import populate_users_data, user1
 
 logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
@@ -60,4 +60,13 @@ async def save_user(user: User):
     logger.warning("Saving user in the database")
     redis_crm.set(name=user.card_token, value=json.dumps(user.reprJSON()))
     logger.warning("User saved. User data: %s", user.reprJSON())
+    return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())
+
+
+@app.get("/customer_info")
+async def get_customer_info_on_checkout():
+    logger.warning("Obtained request to get customer info on checkout")
+    logger.warning("Getting user from the database")
+    user = user1
+    logger.warning("User data: %s", user.reprJSON())
     return JSONResponse(status_code=status.HTTP_200_OK, content=user.reprJSON())

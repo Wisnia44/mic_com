@@ -17,11 +17,12 @@ async def health():
 
 
 @app.post("/send_ereceipt")
-async def send_ereceipt(customer: User):
+async def send_ereceipt(ereceipt: bytes, customer: User):
     logger.warning(
         "Obtained request to send e-receipt to the user to the address: %s",
         customer.address,
     )
+    logger.warning("Obtained e-receipt to send: %s", ereceipt.decode("utf-8"))
     logger.warning("Sending...")
     logger.warning("E-receipt sent")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
