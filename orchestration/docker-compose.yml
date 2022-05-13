@@ -22,6 +22,11 @@ services:
       dockerfile: crm/Dockerfile
     ports:
       - "8002:8002"
+    depends_on:
+      - redis_crm_orchestration
+  redis_crm_orchestration:
+    container_name: redis_crm_orchestration
+    image: "redis:alpine"
   doors:
     container_name: doors_orchestration
     build:
