@@ -10,7 +10,7 @@ from shared.models import Product, ProductId
 from shared.utils import populate_products_data
 
 app = FastAPI()
-redis_pim = redis.Redis(host="redis_pim_choreography", port=6379)
+redis_pim = redis.Redis(host="redis_pim_orchestration", port=6379)
 populate_products_data(redis_pim)
 
 logger = logging.getLogger()
