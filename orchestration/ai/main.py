@@ -3,7 +3,8 @@ import os
 
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from shared.utils import get_products_json
+from shared.models import ProductId
+from shared.utils import product1, product2
 
 app = FastAPI()
 logger = logging.getLogger()
@@ -19,6 +20,9 @@ async def health():
 async def get_purchased_products():
     logger.warning("Obtained request to get purchased products info on checkout")
     logger.warning("Analysing...")
-    products_json = get_products_json()
-    logger.warning("Calculated products info: %s", products_json)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=products_json)
+    products_ids = [
+        ProductId(id=product1.id).reprJSON(),
+        ProductId(id=product2.id).reprJSON(),
+    ]
+    logger.warning("Calculated products ids: %s", products_ids)
+    return JSONResponse(status_code=status.HTTP_200_OK, content=products_ids)

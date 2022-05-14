@@ -24,12 +24,19 @@ class User(BaseModel):
 
 
 class Product(BaseModel):
+    id: str
     name: str
     price: int
-    quantity: int
 
     def reprJSON(self):
-        return dict(name=self.name, price=self.price, quantity=self.quantity)
+        return dict(id=self.id, name=self.name, price=self.price)
+
+
+class ProductId(BaseModel):
+    id: str
+
+    def reprJSON(self):
+        return dict(id=self.id)
 
 
 class Ereceipt(BaseModel):

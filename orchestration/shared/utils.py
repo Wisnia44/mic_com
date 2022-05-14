@@ -15,9 +15,8 @@ user2 = User(
     surname="Kane",
     address="harry.kane@email.com",
 )
-
-product1 = Product(name="Chocolate", price=0, quantity=2)
-product2 = Product(name="Juice", price=0, quantity=1)
+product1 = Product(id="123", name="Chocolate", price=299)
+product2 = Product(id="abc", name="Juice", price=799)
 
 
 def populate_users_data(redis_instance: redis.Redis):
@@ -25,5 +24,6 @@ def populate_users_data(redis_instance: redis.Redis):
     redis_instance.set(name=user2.card_token, value=json.dumps(user2.reprJSON()))
 
 
-def get_products_json():
-    return [product1.reprJSON(), product2.reprJSON()]
+def populate_products_data(redis_instance: redis.Redis):
+    redis_instance.set(name=product1.id, value=json.dumps(product1.reprJSON()))
+    redis_instance.set(name=product2.id, value=json.dumps(product2.reprJSON()))

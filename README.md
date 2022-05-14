@@ -35,13 +35,10 @@ It may be needed to authorize with the passphrase for the SSH key to Github.
 9. Screen;
 10. Terminal.
 
-### Databases
+### Databases list
 
-Only some of the services are required to own the database. The list of them:
+1. CRM's database;
+2. PIM's database.
 
-0. Orchestrator;
-1. CRM;
-2. PIM.
-
-Orchestrator needs a database to identify exiting customer with the one who entered the shop. That's provided with the session.\
-CRM keeps in the database information about customers, PIM does so regarding products.
+CRM keeps in the database information about customers, PIM does so regarding products.\
+The rest of the services are just controllers (including the orchestrator) and they don't need the databases.

@@ -8,11 +8,6 @@ services:
       dockerfile: orchestrator/Dockerfile
     ports:
       - "8000:8000"
-    depends_on:
-      - redis_orchestrator_orchestration
-  redis_orchestrator_orchestration:
-    container_name: redis_orchestrator_orchestration
-    image: "redis:alpine"
   ai:
     container_name: ai_orchestration
     build:
