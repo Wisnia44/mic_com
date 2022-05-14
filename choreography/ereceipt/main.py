@@ -28,7 +28,7 @@ async def get_products_info(products: list[Product]):
         await generate_ereceipt()
     else:
         logger.warning("Waiting for customer info to generate e-receipt")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.post("/customer_info")

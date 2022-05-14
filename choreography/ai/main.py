@@ -23,7 +23,7 @@ async def get_purchased_products():
     logger.warning("Analysing...")
     products_ids = [
         ProductId(id=product1.id).reprJSON(),
-        ProductId(product2.id).reprJSON(),
+        ProductId(id=product2.id).reprJSON(),
     ]
     logger.warning("Calculated products ids: %s", products_ids)
     logger.warning("Request PIM to get products info")

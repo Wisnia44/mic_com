@@ -30,7 +30,7 @@ async def verify_card(card: Card, user: User):
             "http://crm_choreography:8002/card_verified",
             json=user.reprJSON(),
         )
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.post("/products_info")
@@ -41,7 +41,7 @@ async def get_products_info(products: list[Product]):
         await realize_payment()
     else:
         logger.warning("Waiting for customer info to realize payment")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.post("/customer_info")

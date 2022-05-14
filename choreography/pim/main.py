@@ -28,8 +28,8 @@ async def get_products(products_ids: List[ProductId]):
     logger.warning("Obtained request to get products info")
     logger.warning("Getting products from database...")
     products = []
-    for id in products_ids:
-        product_db = redis_pim.get(id)
+    for product_id in products_ids:
+        product_db = redis_pim.get(product_id.id)
         product_dict = json.loads(product_db)  # type: ignore [arg-type]
         product = Product(
             id=product_dict["id"],

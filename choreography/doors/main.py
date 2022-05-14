@@ -21,7 +21,7 @@ async def open_doors():
     logger.warning("Doors requested to open")
     logger.warning("Opening doors...")
     logger.warning("Doors opened")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.get("/customer_exit")
@@ -33,4 +33,4 @@ async def customer_exited():
     logger.warning("Calling AI to get info about purchased products")
     async with httpx.AsyncClient() as client:
         await client.get("http://ai_choreography:8001/get_purchased_products")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
