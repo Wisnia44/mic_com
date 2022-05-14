@@ -5,7 +5,7 @@ from typing import List
 import httpx
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
-from shared.models import Ereceipt, Product, User
+from shared.models import Ereceipt, Product, ProductId, User
 
 router = APIRouter()
 logger = logging.getLogger()
@@ -18,10 +18,10 @@ async def checkout():
         "Doors opened, customer left the store, initializing checkout process"
     )
     customer = await _get_customer_data()
-    products = await _get_products_data()
-    products_with_prices = await _get_prices_for_products(products)
-    await _print_receipt(products_with_prices, customer)
-    ereceipt = await _generate_ereceipt(products_with_prices, customer)
+    products_ids = await _get_products_data()
+    products = await _get_prices_for_products(products_ids)
+    await _print_receipt(products, customer)
+    ereceipt = await _generate_ereceipt(products, customer)
     await _send_ereceipt(ereceipt, customer)
     await _realize_payment()
     return JSONResponse(status_code=status.HTTP_200_OK, content={})
@@ -41,41 +41,31 @@ async def _get_customer_data() -> User:
     )
 
 
-async def _get_products_data() -> List[Product]:
+async def _get_products_data() -> List[ProductId]:
     logger.warning("Calling AI to get info about purchased products")
     async with httpx.AsyncClient() as client:
         response = await client.get(
             "http://ai_orchestration:8001/get_purchased_products"
         )
     logger.warning("Response from AI: %s", response.text)
-    products = []
+    products_ids = []
     for product in response.json():
-        products.append(
-            Product(
-                name=product["name"],
-                price=product["price"],
-                quantity=product["quantity"],
-            )
-        )
-    return products
+        products_ids.append(ProductId(id=product["id"]))
+    return products_ids
 
 
-async def _get_prices_for_products(products: List[Product]) -> List[Product]:
-    products_json = [product.reprJSON() for product in products]
-    logger.warning("Request PIM to get products prices")
+async def _get_prices_for_products(products_ids: List[ProductId]) -> List[Product]:
+    products_ids_json = [product_id.reprJSON() for product_id in products_ids]
+    logger.warning("Request PIM to get products information")
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            "http://pim_orchestration:8007/get_prices", json=products_json
+            "http://pim_orchestration:8007/get_products", json=products_ids_json
         )
     logger.warning("Response from PIM: %s", response.text)
     products = []
     for product in response.json():
         products.append(
-            Product(
-                name=product["name"],
-                price=product["price"],
-                quantity=product["quantity"],
-            )
+            Product(id=product["id"], name=product["name"], price=product["price"])
         )
     return products
 

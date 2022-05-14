@@ -34,3 +34,11 @@ It may be needed to authorize with the passphrase for the SSH key to Github.
 8. Receipt;
 9. Screen;
 10. Terminal.
+
+### Databases list
+
+1. CRM's database;
+2. PIM's database.
+
+CRM keeps in the database information about customers, PIM does so regarding products.\
+The rest of the services are just controllers (including the orchestrator) and they don't need the databases.

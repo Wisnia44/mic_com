@@ -42,4 +42,4 @@ async def scan_again(user: User):
             "http://payments_choreography:8006/verify_card",
             json=dict(user=user.reprJSON(), card=card.reprJSON()),
         )
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

@@ -22,7 +22,7 @@ async def info_open_doors():
     logger.warning("Info about opening doors show request obtained")
     logger.warning("Showing info about opening doors...")
     logger.warning("Info shown")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.get("/scan_again")
@@ -30,7 +30,7 @@ async def info_scan_again():
     logger.warning("Info about second card scanning show request obtained")
     logger.warning("Showing info about scanning card again...")
     logger.warning("Info shown")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
 
 
 @app.post("/registration_form")
@@ -49,4 +49,4 @@ async def show_registration_form(card: Card):
         await client.post(
             "http://crm_choreography:8002/registration_data", json=data.reprJSON()
         )
-    return JSONResponse(status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})

@@ -24,4 +24,4 @@ async def send_ereceipt(customer: User):
     )
     logger.warning("Sending...")
     logger.warning("E-receipt sent")
-    return JSONResponse(status_code=status.HTTP_200_OK)
+    return JSONResponse(status_code=status.HTTP_200_OK, content={})
