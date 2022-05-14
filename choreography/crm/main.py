@@ -13,7 +13,7 @@ logger = logging.getLogger()
 logger.setLevel(os.getenv("LOGGER_LEVEL", "INFO"))
 
 app = FastAPI()
-redis_crm = redis.Redis(host="redis_crm", port=6379)
+redis_crm = redis.Redis(host="redis_crm_choreography", port=6379)
 
 populate_users_data(redis_crm)
 

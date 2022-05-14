@@ -16,8 +16,9 @@ services:
     ports:
       - "8002:8002"
     depends_on:
-      - redis_crm
-  redis_crm:
+      - redis_crm_choreography
+  redis_crm_choreography:
+    container_name: redis_crm_choreography
     image: "redis:alpine"
   doors:
     container_name: doors_choreography
@@ -54,6 +55,11 @@ services:
       dockerfile: pim/Dockerfile
     ports:
       - "8007:8007"
+    depends_on:
+      - redis_pim_choreography
+  redis_pim_choreography:
+    container_name: redis_pim_choreography
+    image: "redis:alpine"
   receipt:
     container_name: receipt_choreography
     build:
