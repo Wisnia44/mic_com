@@ -4,7 +4,8 @@ import os
 import httpx
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
-from shared.utils import get_products_json
+from shared.models import ProductId
+from shared.utils import product1, product2
 
 app = FastAPI()
 logger = logging.getLogger()
@@ -20,9 +21,14 @@ async def health():
 async def get_purchased_products():
     logger.warning("Obtained request to get purchased products info on checkout")
     logger.warning("Analysing...")
-    products_json = get_products_json()
-    logger.warning("Calculated products info: %s", products_json)
-    logger.warning("Request PIM to get products prices")
+    products_ids = [
+        ProductId(id=product1.id).reprJSON(),
+        ProductId(product2.id).reprJSON(),
+    ]
+    logger.warning("Calculated products ids: %s", products_ids)
+    logger.warning("Request PIM to get products info")
     async with httpx.AsyncClient() as client:
-        await client.post("http://pim_choreography:8007/get_prices", json=products_json)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=products_json)
+        await client.post(
+            "http://pim_choreography:8007/get_products", json=products_ids
+        )
+    return JSONResponse(status_code=status.HTTP_200_OK, content=products_ids)
