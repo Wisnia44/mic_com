@@ -1,0 +1,65 @@
+-----------------------------  -
+health                         1
+verify_card                    1
+realize_payment                1
+health                         1
+send_ereceipt                  1
+generate_ereceipt              2
+health                         1
+get_user                       3
+health                         1
+validate_registration_data     1
+save_user                      1
+get_customer_info_on_checkout  1
+health                         1
+scan_again                     1
+card_scanned                   1
+Card                           2
+User                           2
+Product                        2
+ProductId                      2
+Ereceipt                       2
+reprJSON                       1
+reprJSON                       1
+reprJSON                       1
+reprJSON                       1
+reprJSON                       1
+populate_users_data            1
+populate_products_data         1
+health                         1
+open_doors                     1
+customer_exited                1
+print_receipt                  2
+health                         1
+get_products                   2
+health                         1
+health                         1
+get_purchased_products         1
+health                         1
+info_open_doors                1
+info_scan_again                1
+show_registration_form         1
+registration                   3
+_data_validation               2
+_verify_card                   2
+_registration_form             1
+_second_card_scan              1
+_save_user                     1
+_get_prices_for_products       3
+_get_products_data             2
+_print_receipt                 2
+_generate_ereceipt             2
+checkout                       1
+_get_customer_data             1
+_send_ereceipt                 1
+_realize_payment               1
+entering                       3
+_get_user                      2
+_open_door                     1
+health                         1
+-----------------------------  -
+Max module complexity = 3
+Total complexity = 80
+LOC = 747
+Total effort = 11.1357092861044
+Expected total number of bugs = 0.007423806190736267
