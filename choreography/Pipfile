@@ -21,6 +21,6 @@ tabulate = "*"
 python_version = "3.10"
 
 [scripts]
-raw = "radon raw . -O metrics/raw.json -s -j -e metrics/*"
-hal = "radon hal . -O metrics/hal.json -j -e metrics/*"
-cc = "radon cc . -O metrics/cc.json -j --total-average -s -e metrics/*"
+raw = "radon raw . -O ../metrics/choreography/raw.json -s -j"
+hal = "radon hal . -O ../metrics/choreography/hal.json -j"
+cc = "radon cc . -O ../metrics/choreography/cc.json -j --total-average -s"
