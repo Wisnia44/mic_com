@@ -14,6 +14,13 @@ black = "*"
 flake8 = "*"
 isort = "*"
 mypy = "*"
+radon = "*"
+tabulate = "*"
 
 [requires]
 python_version = "3.10"
+
+[scripts]
+raw = "radon raw . -O metrics/raw.json -s -j -e metrics/*"
+hal = "radon hal . -O metrics/hal.json -j -e metrics/*"
+cc = "radon cc . -O metrics/cc.json -j --total-average -s -e metrics/*"
