@@ -1,52 +1,51 @@
---------------------------------------  -
-get_products_info                       2
-get_customer_info                       2
-health                                  1
-verify_card                             1
-realize_payment                         1
-health                                  1
-send_ereceipt                           1
-get_products_info                       2
-get_customer_info                       2
-health                                  1
-generate_ereceipt                       1
-card_scanned                            3
-health                                  1
-validate_registration_data              1
-save_user                               1
-get_customer_info_on_checkout           1
-open_doors_and_finish_entering_process  1
-health                                  1
-card_scanned                            1
-scan_again                              1
-Card                                    2
-User                                    2
-Product                                 2
-ProductId                               2
-reprJSON                                1
-reprJSON                                1
-reprJSON                                1
-reprJSON                                1
-populate_users_data                     1
-populate_products_data                  1
-health                                  1
-open_doors                              1
-customer_exited                         1
-get_products_info                       2
-get_customer_info                       2
-health                                  1
-print_receipt                           1
-get_products                            2
-health                                  1
-health                                  1
-get_purchased_products                  1
-health                                  1
-info_open_doors                         1
-info_scan_again                         1
-show_registration_form                  1
---------------------------------------  -
+payments/main.py.get\_products\_info & 2\\
+payments/main.py.get\_customer\_info & 2\\
+payments/main.py.health & 1\\
+payments/main.py.verify\_card & 1\\
+payments/main.py.realize\_payment & 1\\
+messages/main.py.health & 1\\
+messages/main.py.send\_ereceipt & 1\\
+ereceipt/main.py.get\_products\_info & 2\\
+ereceipt/main.py.get\_customer\_info & 2\\
+ereceipt/main.py.health & 1\\
+ereceipt/main.py.generate\_ereceipt & 1\\
+crm/main.py.card\_scanned & 3\\
+crm/main.py.health & 1\\
+crm/main.py.validate\_registration\_data & 1\\
+crm/main.py.save\_user & 1\\
+crm/main.py.get\_customer\_info\_on\_checkout & 1\\
+crm/main.py.open\_doors\_and\_finish\_entering\_process & 1\\
+terminal/main.py.health & 1\\
+terminal/main.py.card\_scanned & 1\\
+terminal/main.py.scan\_again & 1\\
+shared/models.py.Card & 2\\
+shared/models.py.User & 2\\
+shared/models.py.Product & 2\\
+shared/models.py.ProductId & 2\\
+shared/models.py.reprJSON & 1\\
+shared/models.py.reprJSON & 1\\
+shared/models.py.reprJSON & 1\\
+shared/models.py.reprJSON & 1\\
+shared/utils.py.populate\_users\_data & 1\\
+shared/utils.py.populate\_products\_data & 1\\
+doors/main.py.health & 1\\
+doors/main.py.open\_doors & 1\\
+doors/main.py.customer\_exited & 1\\
+receipt/main.py.get\_products\_info & 2\\
+receipt/main.py.get\_customer\_info & 2\\
+receipt/main.py.health & 1\\
+receipt/main.py.print\_receipt & 1\\
+pim/main.py.get\_products & 2\\
+pim/main.py.health & 1\\
+ai/main.py.health & 1\\
+ai/main.py.get\_purchased\_products & 1\\
+screen/main.py.health & 1\\
+screen/main.py.info\_open\_doors & 1\\
+screen/main.py.info\_scan\_again & 1\\
+screen/main.py.show\_registration\_form & 1\\
+
 Max module complexity = 3
-Total complexity = 58
+Total complexity = 14
 LOC = 616
 Total effort = 1.0
 Expected total number of bugs = 0.0006666666666666666
