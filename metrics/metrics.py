@@ -1,7 +1,5 @@
 import json
 
-from tabulate import tabulate
-
 
 def cc(results, composition):
     file = open(f"../metrics/{composition}/cc.json", "r")
@@ -11,10 +9,19 @@ def cc(results, composition):
     total_complexity = 0
     for module in metrics:
         for function in metrics[module]:
-            table.append([function["name"], function["complexity"]])
-            total_complexity += function["complexity"]
+            row = f"{module}.{function['name']} & {function['complexity']}\\\ \n"
+            index = 0
+            while index < len(row):
+                if row[index] == "_":
+                    row = row[:index] + "\\" + row[index:]
+                    index += 1
+                index += 1
+            table.append(row)
+            total_complexity += function["complexity"] - 1
             max_module_complexity = max(function["complexity"], max_module_complexity)
-    results.write(tabulate(table))
+    total_complexity += 1
+    for row in table:
+        results.write(row)
     results.write(f"\nMax module complexity = {max_module_complexity}\n")
     results.write(f"Total complexity = {total_complexity}\n")
 
