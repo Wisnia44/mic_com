@@ -8,6 +8,11 @@ services:
       dockerfile: ai/Dockerfile
     ports:
       - "8001:8001"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   crm:
     container_name: crm_choreography
     build:
@@ -17,9 +22,19 @@ services:
       - "8002:8002"
     depends_on:
       - redis_crm_choreography
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   redis_crm_choreography:
     container_name: redis_crm_choreography
     image: "redis:alpine"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   doors:
     container_name: doors_choreography
     build:
@@ -27,6 +42,11 @@ services:
       dockerfile: doors/Dockerfile
     ports:
       - "8003:8003"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   ereceipt:
     container_name: ereceipt_choreography
     build:
@@ -34,6 +54,11 @@ services:
       dockerfile: ereceipt/Dockerfile
     ports:
       - "8004:8004"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   messages:
     container_name: messages_choreography
     build:
@@ -41,6 +66,11 @@ services:
       dockerfile: messages/Dockerfile
     ports:
       - "8005:8005"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   payments:
     container_name: payments_choreography
     build:
@@ -48,6 +78,11 @@ services:
       dockerfile: payments/Dockerfile
     ports:
       - "8006:8006"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   pim:
     container_name: pim_choreography
     build:
@@ -57,9 +92,19 @@ services:
       - "8007:8007"
     depends_on:
       - redis_pim_choreography
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   redis_pim_choreography:
     container_name: redis_pim_choreography
     image: "redis:alpine"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   receipt:
     container_name: receipt_choreography
     build:
@@ -67,6 +112,11 @@ services:
       dockerfile: receipt/Dockerfile
     ports:
       - "8008:8008"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   screen:
     container_name: screen_choreography
     build:
@@ -74,6 +124,11 @@ services:
       dockerfile: screen/Dockerfile
     ports:
       - "8009:8009"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
   terminal:
     container_name: terminal_choreography
     build:
@@ -81,3 +136,8 @@ services:
       dockerfile: terminal/Dockerfile
     ports:
       - "8010:8010"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
